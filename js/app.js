@@ -1,10 +1,10 @@
-// SCRIPTS FOR LONDON LOO CODES MAP
-// Coded by Ahmad Barclay. No rights reserved.
+// SCRIPTS FOR Storied walks
+// Original code by Ahmad Barclay. No rights reserved.
 // For more info: github.com/bothness/ldnloos
 
 // SET GLOBAL VARIABLES
 
-// URL of CSV file containing geocoded data from London Loo Codes
+// URL of CSV file containing geocoded data
 var csvurl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRn02izdqj3IaHV4522anSQ0h098_hp5YoR1a5tXxiaQFrfxU-AQqjnfG5aGccG2qTFXblcOq4fYgHo/pub?output=csv";
 var icourl = "img/marker.png"
 
