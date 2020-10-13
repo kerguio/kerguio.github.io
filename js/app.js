@@ -5,7 +5,7 @@
 // SET GLOBAL VARIABLES
 
 // URL of CSV file containing geocoded data from London Loo Codes
-var csvurl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPCH12cLRRJCZpMvalSOImqcHuDXs9BW7aCtBiGXBRf6wFAMPKOI7_40nkCS-TFoouT44RCSApPDpE/pub?gid=0&single=true&output=csv";
+var csvurl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRn02izdqj3IaHV4522anSQ0h098_hp5YoR1a5tXxiaQFrfxU-AQqjnfG5aGccG2qTFXblcOq4fYgHo/pub?output=csv";
 var icourl = "img/marker.png"
 
 // Initialize event listeners for filter checkboxes
@@ -27,7 +27,7 @@ function geojson(features) {
     let lng = features[feature].longitude;
     let lat = features[feature].latitude;
     if ($.isNumeric(lng) && $.isNumeric(lat) && lng < 1 && lng > -1 && lat < 52 && lat > 51) {
-      var loo = {
+      var plaque = {
         "type": "Feature",
         "geometry": {
           "type": "Point",
@@ -42,7 +42,7 @@ function geojson(features) {
           "received": features[feature].code_received
         }
       };
-      geojson.features.push(loo);
+      geojson.features.push(plaque);
     };
   };
   return geojson;
