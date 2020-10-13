@@ -5,7 +5,7 @@
 // SET GLOBAL VARIABLES
 
 // URL of CSV file containing geocoded data
-var csvurl = "https://github.com/kerguio/kerguio.github.io/blob/master/files/BP%20Data%20-%20Sheet1.csv";
+var csvurl = "https://raw.githubusercontent.com/kerguio/mapping/main/files/BP%20Data%20-%20Sheet1.csv";
 var icourl = "img/marker.png"
 
 // Initialize event listeners for filter checkboxes
