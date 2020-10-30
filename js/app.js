@@ -9,15 +9,15 @@ var csvurl = "https://raw.githubusercontent.com/kerguio/mapping/main/files/BP%20
 var icourl = "img/marker.png"
 
 // Initialize event listeners for filter checkboxes
-var accessSelect = document.querySelector("input[name=access-select]");
-var genderSelect = document.querySelector("input[name=gender-select]");
+var parklaneSelect = document.querySelector("input[name=parklane-select]");
+var belgraviaSelect = document.querySelector("input[name=belgravia-select]");
 
-accessSelect.addEventListener("change", function(){
-  mapFeatures(accessSelect.checked, genderSelect.checked);
+parklaneSelect.addEventListener("change", function(){
+  mapFeatures(parklaneSelect.checked, belgraviaSelect.checked);
 });
 
-genderSelect.addEventListener("change", function(){
-  mapFeatures(accessSelect.checked, genderSelect.checked);
+belgraviaSelect.addEventListener("change", function(){
+  mapFeatures(parklaneSelect.checked, belgraviaSelect.checked);
 });
 
 // Function to create geoJson object from flat Json data
@@ -34,10 +34,10 @@ function geojson(features) {
           "coordinates": [features[feature].longitude, features[feature].latitude]
         },
         "properties": {
-          "name": features[feature].cafe_name,
-          "code": features[feature].code,
-          "accessible": features[feature].accessible,
-          "gender": features[feature].gender_neutral,
+          "name": features[feature].name,
+          "address": features[feature].address,
+          "Learn more": features[feature].hear_the_story,
+          "group": features[feature].diid,
           "station": features[feature].nearest_station,
           "received": features[feature].code_received
         }
@@ -51,10 +51,10 @@ function geojson(features) {
 // Function to process features in geoJson for map layer
 function onEachFeature(feature, layer) {
   var name = feature.properties.name;
-  var code = feature.properties.code;
-  var accessible = feature.properties.accessible;
-  if (accessible == "Y") {
-    accessible = "Yes";
+  var address = feature.properties.address;
+  var group = feature.properties.diid;
+  if (group == "Park Lane") {
+    accessible = "Park Lane";
   } else if (accessible == "N") {
     accessible = "No";
   }
