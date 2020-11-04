@@ -1,24 +1,10 @@
-// SCRIPTS FOR Storied walks
-// Original code by Ahmad Barclay. No rights reserved.
-// For more info: github.com/bothness/ldnloos
-
+// SCRIPTS FOR Storied Walks
 // SET GLOBAL VARIABLES
 
-// URL of CSV file containing geocoded data
-var csvurl = "https://raw.githubusercontent.com/kerguio/mapping/main/files/BP%20Data%20-%20Sheet1.csv";
+// URL of CSV file containing geocoded data 
+var csvurl = "https://raw.githubusercontent.com/kerguio/mapping/main/files/Blue_Plaque_Park_Lane.csv";
 var icourl = "img/marker.png"
 
-// Initialize event listeners for filter checkboxes
-var parklaneSelect = document.querySelector("input[name=parklane-select]");
-var belgraviaSelect = document.querySelector("input[name=belgravia-select]");
-
-parklaneSelect.addEventListener("change", function(){
-  mapFeatures(parklaneSelect.checked, belgraviaSelect.checked);
-});
-
-belgraviaSelect.addEventListener("change", function(){
-  mapFeatures(parklaneSelect.checked, belgraviaSelect.checked);
-});
 
 // Function to create geoJson object from flat Json data
 function geojson(features) {
@@ -27,7 +13,7 @@ function geojson(features) {
     let lng = features[feature].longitude;
     let lat = features[feature].latitude;
     if ($.isNumeric(lng) && $.isNumeric(lat) && lng < 1 && lng > -1 && lat < 52 && lat > 51) {
-      var loo = {
+      var plak = {
         "type": "Feature",
         "geometry": {
           "type": "Point",
@@ -35,14 +21,12 @@ function geojson(features) {
         },
         "properties": {
           "name": features[feature].name,
-          "address": features[feature].address,
-          "Learn more": features[feature].hear_the_story,
-          "group": features[feature].diid,
-          "station": features[feature].nearest_station,
-          "received": features[feature].code_received
+          "fame": features[feature].Famous_for,
+          "address": features[feature].Address,
+          "hear": features[feature].hear_the_story,
         }
       };
-      geojson.features.push(loo);
+      geojson.features.push(plak);
     };
   };
   return geojson;
@@ -51,29 +35,17 @@ function geojson(features) {
 // Function to process features in geoJson for map layer
 function onEachFeature(feature, layer) {
   var name = feature.properties.name;
+  var fame = feature.properties.fame;
   var address = feature.properties.address;
-  var group = feature.properties.diid;
-  if (group == "Park Lane") {
-    accessible = "Park Lane";
-  } else if (accessible == "N") {
-    accessible = "No";
-  }
-  var gender = feature.properties.gender;
-  if (gender == "Y") {
-    gender = "Yes";
-  } else if (gender == "N") {
-    gender = "No";
-  }
-  var station = feature.properties.station;
-  var received = feature.properties.received;
+  var fame = feature.properties.fame;
   var lat = feature.geometry.coordinates[1];
   var lon = feature.geometry.coordinates[0];
   var url = "https://www.google.com/maps/dir/?api=1&destination=" + lat + "," + lon;
-  var html = "<h3>" + name + "</h3><strong>Nearest Station:</strong> " + station + "<br><strong>Access Code:</strong> " + code + "<br><strong>Accessible:</strong> " + accessible + "<br><strong>Gender Neutral:</strong> " + gender + '<br><br><a href="' + url + '" target="_blank">Get Google Maps directions</a><br><br>(Code provided on ' + received + ')';
+  var html = "<h3>" + name + "</h3><strong>Famous for:</strong> " + fame + "<br><strong>Address:</strong> " + address + '<br><br><a href="' + url + '" target="_blank">Get Google Maps directions</a><br><br>';
   layer.bindPopup(html);
   var myIcon = L.icon({
     iconUrl: 'img/marker.png',
-    iconSize: [25, 30],
+    iconSize: [30, 30],
     iconAnchor: [12, 30],
     popupAnchor: [0, -25]
   });
@@ -130,27 +102,7 @@ function makeMap(geopoints) {
   $('#filters').appendTo('#filter-control');
 }
 
-// Function to update the map features when filters are selected
-function mapFeatures(accessSelect, genderSelect) {
-  var geoJsonLayer = L.geoJson(geojson, {
-    onEachFeature: onEachFeature,
-    filter: function(feature, layer) {
-      if (accessSelect == false && genderSelect == false) {
-        return true;
-      } else if (accessSelect == true && genderSelect == false) {
-        return feature.properties.accessible.charAt(0).toLowerCase() == "y";
-      } else if (accessSelect == false && genderSelect == true) {
-        return feature.properties.gender.charAt(0).toLowerCase() == "y";
-      } else {
-        return feature.properties.accessible.charAt(0).toLowerCase() == "y" && feature.properties.gender.charAt(0).toLowerCase() == "y";
-      }
-    }
-  });
-  window.markers.clearLayers();
-  window.markers.addLayer(geoJsonLayer);
-  window.map.addLayer(window.markers);
-  window.map.flyToBounds(window.markers.getBounds());
-}
+
 
 // INITIALIZE THE MAP ON LOAD
 // Fetch CSV file, convert to json, convert json to geoJson, initialize map
