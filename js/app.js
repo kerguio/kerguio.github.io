@@ -24,6 +24,8 @@ function geojson(features) {
           "fame": features[feature].Famous_for,
           "address": features[feature].Address,
           "hear": features[feature].hear_the_story,
+          "diid": features[feature].DiiD,
+
         }
       };
       geojson.features.push(plak);
@@ -36,12 +38,13 @@ function geojson(features) {
 function onEachFeature(feature, layer) {
   var name = feature.properties.name;
   var fame = feature.properties.fame;
+  var diid = feature.properties.diid;
   var address = feature.properties.address;
   var fame = feature.properties.fame;
   var lat = feature.geometry.coordinates[1];
   var lon = feature.geometry.coordinates[0];
   var url = "https://www.google.com/maps/dir/?api=1&destination=" + lat + "," + lon;
-  var html = "<h3>" + name + "</h3><strong>Famous for:</strong> " + fame + "<br><strong>Address:</strong> " + address + '<br><br><a href="' + url + '" target="_blank">Get Google Maps directions</a><br><br>';
+  var html = "<h3>" + name + "</h3><strong>Famous for:</strong> " + fame + "<br><strong>Address:</strong> " + address + " <br><strong>Get the DiiD:</strong> " + diid + " '<br><br><a href="' + url + '" target="_blank">Get Google Maps directions</a><br><br>';
   layer.bindPopup(html);
   var myIcon = L.icon({
     iconUrl: 'img/marker.png',
